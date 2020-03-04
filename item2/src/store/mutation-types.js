@@ -20,4 +20,9 @@ export const SAVE_RATINGS = 'SAVE_RATINGS'
 // 商家的type
 export const SAVE_INFO = 'SAVE_INFO'
 
+// 商品数量的操作
+export const ADD_COUNT = 'ADD_COUNT'
+export const REDUCE_COUNT = 'REDUCE_COUNT'
+
+
 

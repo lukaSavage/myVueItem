@@ -70,7 +70,11 @@ import { mapState } from 'vuex'
 export default {
     name: 'ShopList',
     computed: {
-        ...mapState(['shops'])
+        // ...mapState(['shops'])
+        //使用module改变写法
+        ...mapState({
+            shops: state=>state.msite.shops
+        })
     }
 }
 </script>

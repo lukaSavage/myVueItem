@@ -1,126 +1,135 @@
 <template>
     <div class="shop-header">
-        <nav
-            class="shop-nav"
-            style="background-image: url('https://fuss10.elemecdn.com/f/5c/ead54394c3de198d3e6d3e9111bbfpng.png');"
-        >
+        <nav class="shop-nav" :style="{backgroundImage: `url(${info.bgImg})`}">
             <a class="back" @click="$router.back()">
                 <i class="iconfont icon-arrow_left" />
             </a>
         </nav>
-        <div class="shop-content">
-            <img
-                src="https://fuss10.elemecdn.com/8/40/02872ce8aefe75c16d3190e75ad61jpeg.jpeg"
-                class="content-image"
-            />
+        <div class="shop-content" @click="isShowBulletin=!isShowBulletin">
+            <img :src="info.avatar" class="content-image" />
             <div class="header-content">
                 <h2 class="content-title">
                     <span class="content-tag">
                         <span class="mini-tag">品牌</span>
                     </span>
-                    <span class="content-name">嘉禾一品（温都水城）</span>
+                    <span class="content-name">{{info.name}}</span>
                     <i class="content-icon"></i>
                 </h2>
                 <div class="shop-message">
-                    <span class="shop-message-detail">5</span>
-                    <span class="shop-message-detail">月售90单</span>
+                    <span class="shop-message-detail">{{info.score}}</span>
+                    <span class="shop-message-detail">月售{{info.sellCount}}单</span>
                     <span class="shop-message-detail">
                         硅谷专送
-                        <span>约28分钟</span>
+                        <span>约{{info.deliveryTime}}分钟</span>
                     </span>
-                    <span class="shop-message-detail">距离1000m</span>
+                    <span class="shop-message-detail">距离{{info.distance}}</span>
                 </div>
-                <p class="shop-notice">是以粥为特色的中式营养快餐，自2004年10月18日创立“嘉和一品”品牌至今</p>
+                <p class="shop-notice">{{info.bulletin}}</p>
             </div>
         </div>
-        <div class="shop-header-discounts">
+        <div
+            class="shop-header-discounts"
+            v-if="info.supports"
+            @click="isShowSupports=!isShowSupports"
+        >
             <div class="discounts-left">
                 <div class="activity activity-green">
                     <span class="content-tag">
-                        <span class="mini-tag">首单</span>
+                        <span class="mini-tag">{{info.supports[0].name}}</span>
                     </span>
-                    <span class="activity-content">新用户下单立减17元</span>
+                    <span class="activity-content">{{info.supports[0].content}}</span>
                 </div>
             </div>
-            <div class="discounts-right">3个优惠</div>
+            <div class="discounts-right">{{info.supports.length}}个优惠</div>
         </div>
-        <div class="shop-brief-modal" style="display: none;">
-            <div class="brief-modal-content">
-                <h2 class="content-title">
-                    <span class="content-tag">
-                        <span class="mini-tag">品牌</span>
-                    </span>
-                    <span class="content-name">嘉禾一品（温都水城）</span>
-                </h2>
-                <ul class="brief-modal-msg">
-                    <li>
-                        <h3>3.5</h3>
-                        <p>评分</p>
-                    </li>
-                    <li>
-                        <h3>90单</h3>
-                        <p>月售</p>
-                    </li>
-                    <li>
-                        <h3>硅谷专送</h3>
-                        <p>约28分钟</p>
-                    </li>
-                    <li>
-                        <h3>4元</h3>
-                        <p>配送费用</p>
-                    </li>
-                    <li>
-                        <h3>1000m</h3>
-                        <p>距离</p>
-                    </li>
-                </ul>
-                <h3 class="brief-modal-title">
-                    <span>公告</span>
-                </h3>
-                <div class="brief-modal-notice">是以粥为特色的中式营养快餐，自2004年10月18日创立“嘉和一品”品牌至今</div>
-                <div class="mask-footer">
-                    <span class="iconfont icon-close"></span>
+
+        <transition name="fade">
+            <div class="shop-brief-modal" v-show="isShowBulletin">
+                <div class="brief-modal-content">
+                    <h2 class="content-title">
+                        <span class="content-tag">
+                            <span class="mini-tag">品牌</span>
+                        </span>
+                        <span class="content-name">{{info.name}}</span>
+                    </h2>
+                    <ul class="brief-modal-msg">
+                        <li>
+                            <h3>{{info.score}}</h3>
+                            <p>评分</p>
+                        </li>
+                        <li>
+                            <h3>{{info.sellCount}}单</h3>
+                            <p>月售</p>
+                        </li>
+                        <li>
+                            <h3>{{info.description}}</h3>
+                            <p>约{{info.deliveryTime}}分钟</p>
+                        </li>
+                        <li>
+                            <h3>{{info.deliveryPrice}}元</h3>
+                            <p>配送费用</p>
+                        </li>
+                        <li>
+                            <h3>{{info.distance}}</h3>
+                            <p>距离</p>
+                        </li>
+                    </ul>
+                    <h3 class="brief-modal-title">
+                        <span>公告</span>
+                    </h3>
+                    <div class="brief-modal-notice">{{info.bulletin}}</div>
+                    <div class="mask-footer">
+                        <span class="iconfont icon-close" @click="isShowBulletin=!isShowBulletin"></span>
+                    </div>
                 </div>
+                <div class="brief-modal-cover" @click="isShowBulletin=!isShowBulletin"></div>
             </div>
-            <div class="brief-modal-cover"></div>
-        </div>
-        <div class="activity-sheet" style="display: none;">
-            <div class="activity-sheet-content">
-                <h2 class="activity-sheet-title">优惠活动</h2>
-                <ul class="list">
-                    <li class="activity-item activity-green">
-                        <span class="content-tag">
-                            <span class="mini-tag">首单</span>
-                        </span>
-                        <span class="activity-content">新用户下单立减17元(不与其它活动同享)</span>
-                    </li>
-                    <li class="activity-item activity-red">
-                        <span class="content-tag">
-                            <span class="mini-tag">满减</span>
-                        </span>
-                        <span class="activity-content">满35减19，满65减35</span>
-                    </li>
-                    <li class="activity-item activity-orange">
-                        <span class="content-tag">
-                            <span class="mini-tag">特价</span>
-                        </span>
-                        <span class="activity-content">【立减19.5元】欢乐小食餐</span>
-                    </li>
-                </ul>
-                <div class="activity-sheet-close">
-                    <span class="iconfont icon-close"></span>
+        </transition>
+        <transition name="remove">
+            <div class="activity-sheet" v-show="isShowSupports">
+                <div class="activity-sheet-content">
+                    <h2 class="activity-sheet-title">优惠活动</h2>
+                    <ul class="list">
+                        <li
+                            class="activity-item"
+                            :class="supportsClass[item.type]"
+                            v-for="(item,index) in info.supports"
+                            :key="index"
+                        >
+                            <span class="content-tag">
+                                <span class="mini-tag">{{item.name}}</span>
+                            </span>
+                            <span class="activity-content">{{item.content}}</span>
+                        </li>
+                    </ul>
+                    <div class="activity-sheet-close" @click="isShowSupports=!isShowSupports">
+                        <span class="iconfont icon-close"></span>
+                    </div>
                 </div>
+                <div class="activity-sheet-cover" @click="isShowSupports=!isShowSupports"></div>
             </div>
-            <div class="activity-sheet-cover"></div>
-        </div>
+        </transition>
     </div>
 </template>
 
 
 
 <script>
+import { mapState } from 'vuex'
 export default {
-    name: 'ShopHeader'
+    name: 'ShopHeader',
+    data() {
+        return {
+            isShowBulletin: false, // 是否展示商铺信息
+            isShowSupports: false, // 是否展示活动信息
+            supportsClass: ['activity-green','activity-red','activity-orange']
+        }
+    },
+    computed: {
+        ...mapState({
+            info: state => state.shop.info
+        })
+    }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -308,6 +317,10 @@ export default {
         z-index 52
         flex-direction column
         color #333
+        &.fade-enter-active,&.fade-leave-active
+            transition all .5s
+        &.fade-enter,&.fade-leave-to
+            opacity 0
         .brief-modal-cover
             position absolute
             width 100%
@@ -408,9 +421,9 @@ export default {
         width 100%
         height 100%
         z-index 99
-        &.move-enter-active, &.move-leave-active
-            transition opacity 0.3s
-        &.move-enter-active, &.move-leave-active
+        &.remove-enter-active, &.remove-leave-active
+            transition opacity .5s
+        &.remove-enter, &.remove-leave-to
             opacity 0
         .activity-sheet-content
             position absolute

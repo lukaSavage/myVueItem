@@ -113,7 +113,11 @@ import { MessageBox } from 'mint-ui'
 export default {
     name: 'Profile',
     computed: {
-        ...mapState(['user'])
+        // ...mapState(['user'])
+        // 使用module改变写法
+        ...mapState({
+            user: state=>state.user.user
+        })
     },
     methods: {
         logout() {

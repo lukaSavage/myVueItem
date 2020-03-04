@@ -15,7 +15,7 @@
         if ('addEventListener' in document) {
             document.addEventListener('DOMContentLoaded', function () {
                 FastClick.attach(document.body);
-            }, {passive: false});
+            }, false);
         }
     </script>
 </head>

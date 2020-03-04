@@ -14,7 +14,7 @@ axios.interceptors.request.use(config => {
     }
     if (config.headers.needToken) {
         // 取出token
-        const token = store.state.token
+        const token = store.state.user.token
         // 判断token是否存在
         if (token) {
             config.headers.authorization = token

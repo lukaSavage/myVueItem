@@ -101,7 +101,12 @@ export default {
         }
     },
     computed: {
-        ...mapState(['address', 'categories']),
+        // ...mapState(['address', 'categories']),
+        // 使用module后需要改变写法
+        ...mapState({
+            address: state=>state.msite.address,
+            categories: state=>state.msite.categories
+        }),
         categoriesArr() {
             // 从vuex中获取数组数据
             const { categories } = this
